@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/adapterLayoutSelect"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="3dp"
+        android:background="@drawable/item_selector_preview_content"
+        android:orientation="vertical" >
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <com.loopj.android.image.SmartImageView
+                android:id="@+id/adapterMoviePicture"
+                android:layout_width="match_parent"
+                android:layout_height="160dp"
+                android:layout_margin="1dp"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop" />
+
+<!--             <ImageView -->
+<!--                 android:id="@+id/adapterMoviePicture" -->
+<!--                 android:layout_width="match_parent" -->
+<!--                 android:layout_height="160dp" -->
+<!--                 android:layout_margin="1dp" -->
+<!--                 android:adjustViewBounds="true" -->
+<!--                 android:scaleType="centerCrop" /> -->
+
+            <TextView
+                android:id="@+id/adapterMovieTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#88000000"
+                android:gravity="center"
+                android:textColor="#ffffff"
+                android:textSize="16dp" />
+        </FrameLayout>
+    </LinearLayout>
+
+</LinearLayout>
