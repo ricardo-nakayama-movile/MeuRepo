@@ -63,7 +63,7 @@ public class SplashActivity extends Activity {
 			 * the viewSwitcher.
 			 */
 			viewSwitcher.addView(ViewSwitcher.inflate(SplashActivity.this,
-					R.layout.splash_screen, null));
+					R.layout.activity_splash, null));
 
 			// Initialize the TextView and ProgressBar instances - IMPORTANT:
 			// call findViewById() from viewSwitcher.

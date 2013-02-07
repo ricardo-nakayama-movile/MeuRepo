@@ -3,6 +3,7 @@ package com.example.androidjsontest.adapter;
 import java.util.List;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -28,13 +29,13 @@ public class MovieAdapter extends BaseAdapter {
 
 	@Override
 	public int getCount() {
-		
+
 		return movies.size();
 	}
 
 	@Override
 	public Object getItem(int position) {
-		
+
 		return movies.get(position);
 	}
 
@@ -55,22 +56,24 @@ public class MovieAdapter extends BaseAdapter {
 		}
 
 		// TODO USE THE viewHolder PATTERN!!
+
 		TextView textViewTitle = (TextView) view
 				.findViewById(R.id.adapterMovieTitle);
 		SmartImageView profileImage = (SmartImageView) view
 				.findViewById(R.id.adapterMoviePicture);
-		LinearLayout layoutSelect = (LinearLayout) view
-				.findViewById(R.id.adapterLayoutSelect);
-
 		textViewTitle.setText(movie.title);
 		profileImage.setImageUrl(movies.get(position).idImage);
+		
+		// LinearLayout layoutSelect = (LinearLayout) view
+		// .findViewById(R.id.adapterLayoutSelect);
 
-		layoutSelect.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-			}
-		});
+		// layoutSelect.setOnClickListener(new OnClickListener() {
+		//
+		// @Override
+		// public void onClick(View v) {
+		// Log.i("INFO", "abriu");
+		// }
+		// });
 
 		return view;
 	}
