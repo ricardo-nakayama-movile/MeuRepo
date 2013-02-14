@@ -35,16 +35,16 @@ public final class R {
         public static final int item_shape_border_preview=0x7f020004;
     }
     public static final class id {
-        public static final int adapterLayoutSelect=0x7f080005;
-        public static final int adapterMoviePicture=0x7f080006;
-        public static final int adapterMovieTitle=0x7f080007;
+        public static final int adapterLayoutSelect=0x7f080003;
+        public static final int adapterMoviePicture=0x7f080004;
+        public static final int adapterMovieTitle=0x7f080005;
         public static final int buttonTeste=0x7f080000;
         public static final int button_list_end=0x7f080002;
         public static final int list_main=0x7f080001;
         public static final int menu_settings=0x7f080009;
-        public static final int pb_progressbar=0x7f080003;
-        public static final int profileImage=0x7f080008;
-        public static final int tv_progress=0x7f080004;
+        public static final int playvideo=0x7f080008;
+        public static final int profileImage=0x7f080007;
+        public static final int video=0x7f080006;
     }
     public static final class layout {
         public static final int activity_bookmarks=0x7f030000;
@@ -53,7 +53,9 @@ public final class R {
         public static final int activity_options=0x7f030003;
         public static final int activity_splash=0x7f030004;
         public static final int adapter_main_item_channel=0x7f030005;
-        public static final int smartimageviewtest=0x7f030006;
+        public static final int main=0x7f030006;
+        public static final int smartimageviewtest=0x7f030007;
+        public static final int videolayout=0x7f030008;
     }
     public static final class menu {
         public static final int activity_main=0x7f070000;

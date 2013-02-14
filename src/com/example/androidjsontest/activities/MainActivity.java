@@ -16,12 +16,12 @@ import com.example.androidjsontest.adapter.DBAdapter;
 import com.example.androidjsontest.bean.parcelable.ChannelContentsParcel;
 import com.example.androidjsontest.bean.parcelable.ChannelContentsResponseParcel;
 import com.example.androidjsontest.interfaces.AsyncTaskInterface;
-import com.example.androidjsontest.util.JSONLoader;
+import com.example.androidjsontest.tasks.JsonLoaderTask;
 
 public class MainActivity extends Activity implements AsyncTaskInterface {
 
 	private String channelContentsUrl = "https://s3.amazonaws.com/nativeapps/channel_kids/videos/channelkids_ios.json";
-	JSONLoader jsonLoader = new JSONLoader();
+	JsonLoaderTask jsonLoader = new JsonLoaderTask();
 
 	private Button buttonTest;
 	Context context;

@@ -1,4 +1,4 @@
-package com.example.androidjsontest.util;
+package com.example.androidjsontest.tasks;
 
 import java.io.IOException;
 
@@ -6,13 +6,15 @@ import android.os.AsyncTask;
 
 import com.example.androidjsontest.bean.parcelable.ChannelContentsResponseParcel;
 import com.example.androidjsontest.interfaces.AsyncTaskInterface;
+import com.example.androidjsontest.util.JSONParser;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 
-public class JSONLoader extends	AsyncTask<String, Void, ChannelContentsResponseParcel> {
+public class JsonLoaderTask extends
+		AsyncTask<String, Void, ChannelContentsResponseParcel> {
 
-	public AsyncTaskInterface delegate=null;
-	
+	public AsyncTaskInterface delegate = null;
+
 	@Override
 	protected void onPreExecute() {
 	}
@@ -25,15 +27,16 @@ public class JSONLoader extends	AsyncTask<String, Void, ChannelContentsResponseP
 		String response = JSONParser.getUrlResponse(params[0]);
 
 		try {
-			channelContentsResponseParcel = JSONParser.getChannelContentsObjFromJson(response);
+			channelContentsResponseParcel = JSONParser
+					.getChannelContentsObjFromJson(response);
 		} catch (JsonParseException e) {
 			e.printStackTrace();
 			return null;
-			
+
 		} catch (JsonMappingException e) {
 			e.printStackTrace();
 			return null;
-			
+
 		} catch (IOException e) {
 			e.printStackTrace();
 			return null;
@@ -46,7 +49,7 @@ public class JSONLoader extends	AsyncTask<String, Void, ChannelContentsResponseP
 	}
 
 	protected void onPostExecute(ChannelContentsResponseParcel result) {
-	    delegate.processFinish(result);
+		delegate.processFinish(result);
 	}
 
 }

@@ -26,10 +26,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name="com.example.androidjsontest.activities.MainActivity"
-            android:label="@string/app_name" >
-        </activity>
+<!--         <activity -->
+<!--             android:name="com.example.androidjsontest.activities.MainActivity" -->
+<!--             android:label="@string/app_name" > -->
+<!--         </activity> -->
         <activity
             android:name="com.example.androidjsontest.activities.MainListActivity"
             android:label="@string/app_name" >

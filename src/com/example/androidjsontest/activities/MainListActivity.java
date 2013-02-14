@@ -4,13 +4,19 @@ import java.util.List;
 
 import android.app.Activity;
 import android.app.DownloadManager;
+import android.graphics.PixelFormat;
+import android.media.MediaPlayer;
+import android.media.MediaPlayer.OnCompletionListener;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
+import android.widget.MediaController;
+import android.widget.VideoView;
 
 import com.example.androidjson.model.Movie;
 import com.example.androidjsontest.R;
@@ -22,6 +28,7 @@ public class MainListActivity extends Activity {
 	private ListView listComplex;
 	private List<Movie> movies;
 	private ChannelContentsResponseParcel channelContentsResponseParcel;
+	private VideoView videoView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -41,15 +48,16 @@ public class MainListActivity extends Activity {
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
 
-				//TODO DOWNLOAD ESTA SENDO FEITO AQUI, MUDAR!
-				
-				String teste = movies.get(arg2).urlDownload;
+				// TODO DOWNLOAD ESTA SENDO FEITO AQUI, MUDAR!
 
+				String testeDownload = movies.get(arg2).urlDownload;
+				String testeStream = movies.get(arg2).urlMovie;
+				
 				DownloadManager downloadManager;
 				long downloadReference;
 
 				downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
-				Uri Download_Uri = Uri.parse(teste);
+				Uri Download_Uri = Uri.parse(testeDownload);
 				DownloadManager.Request request = new DownloadManager.Request(
 						Download_Uri);
 
@@ -69,30 +77,95 @@ public class MainListActivity extends Activity {
 				// Set the local destination for the downloaded file to a path
 				// within the application's external files directory
 				request.setDestinationInExternalFilesDir(MainListActivity.this,
-						Environment.DIRECTORY_MOVIES, movies.get(arg2).title);
+						Environment.getExternalStorageDirectory()
+								.getAbsolutePath(), movies.get(arg2).tag);
 
 				// Enqueue a new download and same the referenceId
-				downloadReference = downloadManager.enqueue(request);
+				//TODO VERIFICAR SE EXISTE UM VIDEO ANTES DE PUXAR NOVAMENTE
+				//downloadReference = downloadManager.enqueue(request);
 
-//				try {
-//					conteudo = HttpUtil.doHttpGet(movies.get(arg2).urlMovie);
-//				} catch (Exception e) {
-//					Log.e("INFO", "erro ao conectar com servidor");
-//					e.printStackTrace();
-//				}
-//
-//				ExternalStorage externalStorage = new ExternalStorage();
-//				externalStorage.write(MainListActivity.this,
-//						movies.get(arg2).tag, conteudo);
-//				Toast.makeText(getBaseContext(),
-//						"Starting download of " + movies.get(arg2).title,
-//						Toast.LENGTH_SHORT).show();
-				
-				
+				// new DownloadTask().execute(arg2);
 
+				// videoPlayer(Environment.getExternalStorageDirectory()
+				// .getAbsolutePath(), "teste", true);
+
+				setContentView(R.layout.videolayout);
+				videoView = (VideoView) findViewById(R.id.playvideo);
+
+				play(testeStream);
 			}
 		});
 
 	}
 
+	private void play(String url) {
+		MediaController mediaController = new MediaController(this);
+		mediaController.setAnchorView(this.videoView);
+
+		Uri video = Uri.parse(url);
+		Log.e("Uri video", video.toString());
+		videoView.setMediaController(mediaController);
+		videoView.setVideoURI(video);
+		videoView.start();
+		videoView.setOnCompletionListener(new OnCompletionListener() {
+
+			public void onCompletion(MediaPlayer arg0) {
+				// TODO Auto-generated method stub
+			}
+		});
+	}
+
+	// public void videoPlayer(String path, String fileName, boolean autoplay) {
+	// // get current window information, and set format, set it up
+	// // differently, if you need some special effects
+	// getWindow().setFormat(PixelFormat.TRANSLUCENT);
+	// // the VideoView will hold the video
+	// VideoView videoHolder = new VideoView(this);
+	// // MediaController is the ui control howering above the video (just like
+	// // in the default youtube player).
+	// videoHolder.setMediaController(new MediaController(this));
+	// // assing a video file to the video holder
+	// videoHolder.setVideoURI(Uri.parse(path
+	// + "/Android/data/com.example.androidjsontest/files/mnt/sdcard/"
+	// + fileName));
+	// // get focus, before playing the video.
+	// videoHolder.requestFocus();
+	// if (autoplay) {
+	// videoHolder.start();
+	// }
+	// }
+
+	// // To use the AsyncTask, it must be subclassed
+	// private class DownloadTask extends
+	// AsyncTask<Integer, Void, Void> {
+	//
+	// // The code to be executed in a background thread.
+	// @Override
+	// protected Void doInBackground(Integer... params) {
+	//
+	// String conteudo = "";
+	//
+	// try {
+	// conteudo = HttpUtil.doHttpGet(movies.get(params[0]).urlMovie);
+	// } catch (Exception e) {
+	// Log.e("INFO", "erro ao conectar com servidor");
+	// e.printStackTrace();
+	// }
+	//
+	// ExternalStorage externalStorage = new ExternalStorage();
+	// externalStorage.write(MainListActivity.this, movies.get(params[0]).tag,
+	// conteudo);
+	// Toast.makeText(getBaseContext(),
+	// "Starting download of " + movies.get(params[0]).title,
+	// Toast.LENGTH_SHORT).show();
+	//
+	// return null;
+	// }
+	//
+	// // After executing the code in the thread
+	// @Override
+	// protected void onPostExecute(Void result) {
+	//
+	// }
+	// }
 }
