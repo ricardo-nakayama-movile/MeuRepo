@@ -1,4 +1,4 @@
-package com.example.androidjsontest.db;
+package com.example.androidjsontest.dao;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

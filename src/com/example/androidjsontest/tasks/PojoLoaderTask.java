@@ -28,6 +28,7 @@ public class PojoLoaderTask extends
 		this.context = context.getApplicationContext();
 	}
 
+	// TODO STILL GETTING FROM URL, WHAT HAPPENS IF THERE'S NO CONNECTION?
 	@Override
 	protected ChannelContentsResponseParcel doInBackground(String... params) {
 
@@ -50,6 +51,7 @@ public class PojoLoaderTask extends
 			return null;
 		}
 
+		// Writing the channel contents response in the sqlite
 		try {
 			synchronized (context) {
 				datasource = new DBAdapter(context);
@@ -60,7 +62,7 @@ public class PojoLoaderTask extends
 
 				while (it.hasNext()) {
 					channelContentsParcel = it.next();
-					datasource.createChannelContents(
+					datasource.createOrUpdate(
 							channelContentsParcel.getName(),
 							channelContentsParcel.getDescription(),
 							channelContentsParcel.getTag(),

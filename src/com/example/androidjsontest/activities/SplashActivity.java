@@ -33,7 +33,7 @@ public class SplashActivity extends Activity implements AsyncTaskInterface{
 	@Override
 	public void processFinish(final ChannelContentsResponseParcel output) {
 
-		Intent intent = new Intent(context, MainListActivity.class);
+		Intent intent = new Intent(context, ListActivity.class);
 		intent.putExtra("movies", output);
 		startActivity(intent);
 		finish();

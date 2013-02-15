@@ -7,7 +7,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.example.androidjsontest.bean.parcelable.ChannelContentsParcel;
-import com.example.androidjsontest.db.DbHelper;
+import com.example.androidjsontest.dao.DbHelper;
 
 public class DBAdapter {
 	private SQLiteDatabase database;
@@ -31,7 +31,7 @@ public class DBAdapter {
 
 	/**
 	 * 
-	 * This method creates a new channelContent in the database
+	 * This method create a new channelContent in the database
 	 * 
 	 * @param name
 	 * @param description
@@ -70,6 +70,54 @@ public class DBAdapter {
 
 	/**
 	 * 
+	 * This method create or update a new channelContent in the database
+	 * 
+	 * @param name
+	 * @param description
+	 * @param tag
+	 * @param accountType
+	 * @param episodeImg
+	 * @param EpisodeIdiOS
+	 * @param downloadUrl
+	 * @param inclusionTime
+	 * @param publishTime
+	 * @return ChannelContentsParcel
+	 * 
+	 */
+	public ChannelContentsParcel createOrUpdate(String name,
+			String description, String tag, String accountType,
+			String episodeImg, String EpisodeIdiOS, String downloadUrl,
+			String inclusionTime, String publishTime) {
+
+		Cursor cursor = database.query(dbHelper.TABLE_NAME, allColumns,
+				dbHelper.TAG + " = " + tag, null, null, null, null);
+		
+		if (cursor.getCount() <= 0) {
+			return createChannelContents(name, description, tag, accountType, episodeImg, EpisodeIdiOS, downloadUrl, inclusionTime, publishTime);
+		} else {
+
+			ContentValues values = new ContentValues();
+			values.put(dbHelper.NAME, name);
+			values.put(dbHelper.DESCRIPTION, description);
+			values.put(dbHelper.TAG, tag);
+			values.put(dbHelper.ACCOUNTTYPE, accountType);
+			values.put(dbHelper.EPISODEIMG, episodeImg);
+			values.put(dbHelper.EPISODEIDIOS, EpisodeIdiOS);
+			values.put(dbHelper.DOWNLOADURL, downloadUrl);
+			values.put(dbHelper.INCLUSIONTIME, inclusionTime);
+			values.put(dbHelper.PUBLISHTIME, publishTime);
+
+			long updateId = database.update(dbHelper.TABLE_NAME, values, dbHelper.TAG + " = '" + tag + "'",null);
+
+			cursor = database.query(dbHelper.TABLE_NAME, allColumns,
+					dbHelper.ID + " = " + updateId, null, null, null, null);
+			cursor.moveToFirst();
+			return cursorToChannelContents(cursor);
+		}
+	}
+
+	/**
+	 * 
 	 * Removes a channelContent by it's ID
 	 * 
 	 * @param idChannelContent
@@ -96,7 +144,7 @@ public class DBAdapter {
 				cursor.getString(9));
 		return channelContentsParcel;
 	}
-	
+
 	/**
 	 * 
 	 * Return all channelContents
