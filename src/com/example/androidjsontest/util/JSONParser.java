@@ -17,6 +17,7 @@ public class JSONParser {
 	 * Gets a content from a url
 	 * 
 	 * @param url
+	 * 
 	 * @return String
 	 * 
 	 */
@@ -38,7 +39,9 @@ public class JSONParser {
 	 * Get a ChannelContentsResponse from the json
 	 * 
 	 * @param json
+	 * 
 	 * @return ChannelContentsResponseParcel
+	 * 
 	 * @throws JsonParseException
 	 * @throws JsonMappingException
 	 * @throws IOException

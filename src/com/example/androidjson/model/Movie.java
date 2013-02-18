@@ -34,6 +34,7 @@ public class Movie {
 	 * A method to populate a list of movies to be set in the main list
 	 * 
 	 * @param channelContentsResponseParcel
+	 * 
 	 * @return List
 	 * 
 	 */

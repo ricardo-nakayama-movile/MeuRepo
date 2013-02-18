@@ -42,6 +42,7 @@ public class DBAdapter {
 	 * @param downloadUrl
 	 * @param inclusionTime
 	 * @param publishTime
+	 * 
 	 * @return ChannelContentsParcel
 	 * 
 	 */
@@ -81,6 +82,7 @@ public class DBAdapter {
 	 * @param downloadUrl
 	 * @param inclusionTime
 	 * @param publishTime
+	 * 
 	 * @return ChannelContentsParcel
 	 * 
 	 */
@@ -133,6 +135,7 @@ public class DBAdapter {
 	 * Returns a channelContent using a cursor
 	 * 
 	 * @param cursor
+	 * 
 	 * @return ChannelContentsParcel
 	 * 
 	 */
@@ -166,6 +169,7 @@ public class DBAdapter {
 	 * Returns a channelContent using the id of the channel
 	 * 
 	 * @param idChannelContent
+	 * 
 	 * @return ChannelContentsParcel
 	 * 
 	 */

@@ -20,16 +20,15 @@ public class VideoLoaderTask extends
 	// TODO STILL GETTING FROM URL, WHAT HAPPENS IF THERE'S NO CONNECTION?
 	@Override
 	protected Boolean doInBackground(Movie... params) {
-
-		String testeDownload = params[0].urlDownload;
-		String testeName = params[0].tag;
+	
+		String fileDownloadUrl = params[0].urlDownload;
+		String fileName = params[0].tag;
 		
 		VideoController videoController = new VideoController();
-		return videoController.videoDownload(context, testeName, testeDownload);
+		return videoController.videoDownload(context, fileName, fileDownloadUrl);
 	}
-
+	
 	@Override
 	protected void onPostExecute(Boolean result) {
-		
 	}
 }

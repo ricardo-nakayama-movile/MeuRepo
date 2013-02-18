@@ -6,10 +6,10 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
 
 import android.content.Context;
 import android.os.Environment;
@@ -20,8 +20,12 @@ public class ExternalStorage {
 	private boolean mExternalStorageAvailable = false;
 	private boolean mExternalStorageWriteable = false;
 	private final String CLASS_TAG = ExternalStorage.class.getSimpleName();
-	private static final int DEFAULT_TIMEOUT = 15;
+	private final String VIDEO_FORMAT_MP4 = ".mp4";
 
+	
+	/**
+	 * Constructor verifies if external storage is ready to read/write
+	 */
 	public ExternalStorage() {
 		super();
 		String state = Environment.getExternalStorageState();
@@ -41,90 +45,76 @@ public class ExternalStorage {
 		}
 	}
 
-	public Boolean write(Context context, String fileName, String value) {
-
+	public Void deleteMovieExternalStorage(Context context, String movie) {
 		if (mExternalStorageWriteable) {
-			
-			try {
-				Log.i(CLASS_TAG, "Writing External Storage");
-
-				FileOutputStream fos = context.openFileOutput(fileName,
-						Context.MODE_PRIVATE);
-				fos.write(value.getBytes());
-				fos.close();
-
-				Log.i(CLASS_TAG, "OK");
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			File file = new File(context.getExternalFilesDir(null), movie);
+			if (file != null) {
+				file.delete();
 			}
-			
 		} else {
 			Log.w(CLASS_TAG, "mExternalStorageWriteable = "
 					+ mExternalStorageWriteable);
-			return false;
+
 		}
-		return true;
+		return null;
 	}
 
-	public Boolean writeDirectFromUrl(String downloadUrl, Context context,
-			String fileName, String value) {
+	/**
+	 * Save a movie MP4 to external storage given an url Return true in case of
+	 * success
+	 * 
+	 * @param downloadUrl
+	 * @param context
+	 * @param fileName
+	 * 
+	 * @return Boolean
+	 */
+	//TODO IT CAN BE DONE IN A CLEANER WAY
+	public Boolean writeMp4ToExternalStorageFromUrl(String downloadUrl,
+			Context context, String fileName) {
+		try {
+			Log.v("TAG", "downloading data");
 
-		if (mExternalStorageWriteable) {
-			
-			try {
-				Log.i(CLASS_TAG, "Writing External Storage");
+			fileName = fileName.concat(VIDEO_FORMAT_MP4);
+			URL url = new URL(downloadUrl);
+			URLConnection connection = url.openConnection();
+			connection.connect();
 
-				FileOutputStream fos = context.openFileOutput(fileName,
-						Context.MODE_PRIVATE);
-				URL url;
-				HttpURLConnection conn = null;
-				BufferedReader br;
+			int lenghtOfFile = connection.getContentLength();
 
-				url = new URL(downloadUrl);
-				conn = (HttpURLConnection) url.openConnection();
-				conn.setRequestMethod("GET");
-				conn.setDefaultUseCaches(false);
-				conn.setInstanceFollowRedirects(true);
-				conn.setConnectTimeout(DEFAULT_TIMEOUT * 1000);
-				conn.setReadTimeout(DEFAULT_TIMEOUT * 1000);
-				conn.setUseCaches(false);
+			Log.v("TAG", "lenghtOfFile = " + lenghtOfFile);
 
-				br = new BufferedReader(new InputStreamReader(
-						conn.getInputStream(), "iso-8859-1"));
+			InputStream is = url.openStream();
 
-				String line;
+			File fileDirectory = new File(context.getExternalFilesDir(null),
+					fileName);
 
-				while ((line = br.readLine()) != null) {
-					fos.write(line.getBytes());
+			FileOutputStream fos = new FileOutputStream(fileDirectory);
+
+			byte data[] = new byte[1024];
+
+			int count = 0;
+			long total = 0;
+			int progress = 0;
+
+			while ((count = is.read(data)) != -1) {
+				total += count;
+				int progress_temp = (int) total * 100 / lenghtOfFile;
+				if (progress_temp % 10 == 0 && progress != progress_temp) {
+					progress = progress_temp;
+					Log.v("TAG", "total = " + progress);
 				}
-
-				fos.close();
-				br.close();
-
-				Log.i(CLASS_TAG, "OK");
-				
-				return true;
-				
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();	
-			} catch (MalformedURLException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				if (e.getMessage().contains("403")) {
-					System.out.println("[ERROR] 403 Forbidden");
-				} else {
-					Log.e("Erro ao conectar", e.getMessage());
-					e.printStackTrace();
-				}
+				fos.write(data, 0, count);
 			}
-			
-		} else {
-			Log.w(CLASS_TAG, "mExternalStorageWriteable = "
-					+ mExternalStorageWriteable);
+
+			is.close();
+			fos.close();
+
+			Log.v("TAG", "downloading finished");
+			return true;
+		} catch (Exception e) {
+			Log.v("TAG", "exception in downloadData");
+			e.printStackTrace();
 		}
 		return false;
 	}
