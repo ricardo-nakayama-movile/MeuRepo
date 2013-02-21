@@ -5,7 +5,9 @@
     <string name="hello_world">Hello world!</string>
     <string name="menu_settings">Settings</string>
     <string name="loading">Carregando: 0%</string>
-    <string name="button_list_end">Button</string>
+    <string name="button_list_end">Delete Intro Video</string>
+    <string name="test">Teste</string>
+    
     
 
 </resources>
