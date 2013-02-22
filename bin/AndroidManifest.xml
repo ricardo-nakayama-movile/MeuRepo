@@ -19,10 +19,9 @@
         android:label="@string/app_name"
         android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
         <activity
-            
-            android:name="com.example.androidjsontest.activities.SplashActivity"
+            android:name="com.betatest.canalkidsbeta.activities.SplashActivity"
             android:label="@string/app_name" >
-            
+
             <!-- android:name="com.betatest.canalkidsbeta.activities.TestSubscriptionActivity" -->
             <!-- android:label="@string/app_name" > -->
 
@@ -36,6 +35,26 @@
             android:name="com.betatest.canalkidsbeta.activities.ListActivity"
             android:label="@string/app_name" >
         </activity>
+
+        <!-- Services -->
+        <service
+            android:name="com.betatest.canalkidsbeta.alarm.SchedulerEventService"
+            android:process=":canalkids_process" >
+        </service>
+
+        <!-- Receivers -->
+        <receiver
+            android:name="com.betatest.canalkidsbeta.alarm.SchedulerEventReceiver"
+            android:process=":canalkids_process" >
+        </receiver>
+        <receiver
+            android:name="com.betatest.canalkidsbeta.alarm.SchedulerSetupReceiver"
+            android:process=":canalkids_process" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.USER_PRESENT" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

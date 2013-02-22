@@ -6,6 +6,7 @@ import java.util.Iterator;
 import android.content.Context;
 import android.database.SQLException;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.betatest.canalkidsbeta.adapter.DBAdapter;
 import com.betatest.canalkidsbeta.bean.ChannelContentsParcel;
@@ -23,6 +24,7 @@ public class PojoLoaderTask extends
 	private ChannelContentsParcel channelContentsParcel;
 	private ChannelContentsResponseParcel channelContentsResponseParcel;
 	public AsyncTaskInterface delegate = null;
+	private static final String APP_TAG = "com.betatest.canalkidsbeta";
 
 	public PojoLoaderTask(Context context) {
 		this.context = context.getApplicationContext();
@@ -38,6 +40,7 @@ public class PojoLoaderTask extends
 		try {
 			channelContentsResponseParcel = JSONParser
 					.getChannelContentsObjFromJson(response);
+			Log.d(APP_TAG, "GOT CONTENTS FROM JSON");
 		} catch (JsonParseException e) {
 			e.printStackTrace();
 			return null;
@@ -51,6 +54,7 @@ public class PojoLoaderTask extends
 			return null;
 		}
 
+		//TODO SQLITE SHOULD BE CALLED SEPARATEDLY
 		// Writing the channel contents response in the sqlite
 		try {
 			synchronized (context) {
@@ -74,6 +78,7 @@ public class PojoLoaderTask extends
 							channelContentsParcel.getPublishTime());
 				}
 				datasource.close();
+				Log.d(APP_TAG, "WROTE CONTENTS TO SQLITE");
 			}
 
 		} catch (SQLException e) {
